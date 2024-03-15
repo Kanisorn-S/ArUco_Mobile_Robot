@@ -32,123 +32,122 @@ def getChunks(l, n):
 
     return a
 
-# def obstacleAvoidance(cap, var):
-#     '''
-#     Function that takes in a frame captured from the camera and
-#     returns the direction the robot should move
-#     '''
-#     StepSize = 5
+def obstacleAvoidance(cap, queue):
+    '''
+    Function that takes in a frame captured from the camera and
+    returns the direction the robot should move
+    '''
+    StepSize = 5
 
-#     while True:
+    while True:
 
-#         frame = cap.read()
+        frame = cap.read()
 
-#         img = frame.copy()
+        img = frame.copy()
 
-#         # img = cv.cvtColor(frame, cv.COLOR_RGB2BGR)
+        # img = cv.cvtColor(frame, cv.COLOR_RGB2BGR)
 
-#         blur = cv.bilateralFilter(img,9,40,40)
+        blur = cv.bilateralFilter(img,9,40,40)
 
-#         edges = cv.Canny(blur,50,100)
+        edges = cv.Canny(blur,50,100)
 
-#         img_h = img.shape[0] - 1
+        img_h = img.shape[0] - 1
 
-#         img_w = img.shape[1] - 1
+        img_w = img.shape[1] - 1
 
-#         EdgeArray = []
+        EdgeArray = []
 
-#         for j in range(0,img_w,StepSize):
+        for j in range(0,img_w,StepSize):
 
-#             pixel = (j,0)
+            pixel = (j,0)
 
-#             for i in range(img_h-5,0,-1):
+            for i in range(img_h-5,0,-1):
 
-#                 if edges.item(i,j) == 255:
+                if edges.item(i,j) == 255:
 
-#                     pixel = (j,i)
+                    pixel = (j,i)
 
-#                     break
+                    break
 
-#             EdgeArray.append(pixel)
-
-
-#         for x in range(len(EdgeArray)-1):
-
-#             cv.line(img, EdgeArray[x], EdgeArray[x+1], (0,255,0), 1)
+            EdgeArray.append(pixel)
 
 
+        for x in range(len(EdgeArray)-1):
 
-#         for x in range(len(EdgeArray)):
-
-#             cv.line(img, (x*StepSize, img_h), EdgeArray[x],(0,255,0),1)
-
-
-#         chunks = getChunks(EdgeArray,int(len(EdgeArray)/3)) # 5
-
-#         max_dist = 0
-
-#         c = []
-
-#         for i in range(len(chunks)-1):        
-
-#             x_vals = []
-
-#             y_vals = []
-
-#             for (x,y) in chunks[i]:
-
-#                 x_vals.append(x)
-
-#                 y_vals.append(y)
+            cv.line(img, EdgeArray[x], EdgeArray[x+1], (0,255,0), 1)
 
 
-#             avg_x = int(np.average(x_vals))
 
-#             avg_y = int(np.average(y_vals))
+        for x in range(len(EdgeArray)):
 
-#             c.append([avg_y,avg_x])
+            cv.line(img, (x*StepSize, img_h), EdgeArray[x],(0,255,0),1)
 
-#             cv.line(frame,(320,480),(avg_x,avg_y),(255,0,0),2)  
 
-#         # print(c)
+        chunks = getChunks(EdgeArray,int(len(EdgeArray)/3)) # 5
 
-#         forwardEdge = c[1]
-#         # print(forwardEdge)
+        max_dist = 0
 
-#         cv.line(frame,(320,480),(forwardEdge[1],forwardEdge[0]),(0,255,0),3)   
+        c = []
+
+        for i in range(len(chunks)-1):        
+
+            x_vals = []
+
+            y_vals = []
+
+            for (x,y) in chunks[i]:
+
+                x_vals.append(x)
+
+                y_vals.append(y)
+
+
+            avg_x = int(np.average(x_vals))
+
+            avg_y = int(np.average(y_vals))
+
+            c.append([avg_y,avg_x])
+
+            cv.line(frame,(320,480),(avg_x,avg_y),(255,0,0),2)  
+
+        # print(c)
+
+        forwardEdge = c[1]
+        # print(forwardEdge)
+
+        cv.line(frame,(320,480),(forwardEdge[1],forwardEdge[0]),(0,255,0),3)   
         
-#         y = (min(c))
-#         # print(y)
+        y = (min(c))
+        # print(y)
         
-#         if forwardEdge[0] > 200: #200 # >230 works better 
+        if forwardEdge[0] > 200: #200 # >230 works better 
 
-#             if y[1] < 310:
-#                 direction = "left "
-#                 var = -1
-#                 # print(direction)
+            if y[1] < 310:
+                direction = "left "
+                ret = -1
+                # print(direction)
 
-#             else: 
-#                 direction = "right "
-#                 var = 1
-#                 # print(direction)
+            else: 
+                direction = "right "
+                ret = 1
+                # print(direction)
 
-#         else:
-#             direction = "forward "
-#             var = 0
-#             # print(direction)
+        else:
+            direction = "forward "
+            ret = 0
+            # print(direction)
         
-#         # cv.imshow("frame" + str(num),frame)
+        # cv.imshow("frame" + str(num),frame)
 
-#         key = cv.waitKey(5) & 0xFF
-#         if key == 27:
-#             break
+        key = cv.waitKey(5) & 0xFF
+        if key == 27:
+            break
 
 
 
-#         return direction
-    
-#     cap.release()
-#     cv.destroyAllWindows()
+        queue.put((0, ret))
+    cap.release()
+    cv.destroyAllWindows()
 
 
 # def whileMoving(cap1, cap2, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis, turnVelocity, forwardVelocity, duration, thirty_degrees, ROT_TIME, R, BASELINE, MAX_SPEED, TRAVEL_TIME):

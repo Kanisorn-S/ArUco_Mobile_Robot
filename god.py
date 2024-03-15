@@ -19,7 +19,15 @@ import importlib.util
 import sys
 import importlib
 
-def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2):
+''' List of functions that needs to be change for single camera
+    - god
+    - scan
+    - complete
+    - obstacle avoidance #
+''' 
+
+
+def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2):
     # Start spinning and Scanning
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     print("vl is " + str(vl))
@@ -96,10 +104,9 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
 
     # Obstacle Avoidance
     vars = {
-        0:0, 
-        1:0
+        0:0
     }
-    caps = [cap1, cap2]
+    caps = [cap]
     while True:
             if datetime.now() > end_time:
                 break
@@ -117,12 +124,9 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
             TURN_SPEED = 0.404 # rad / s
             DURATION_FACTOR = 1 / TURN_SPEED
             result = read_sensor(inPin2)
-            #print("Moving straight forward")
             vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
-            #print("vl is " + str(vl))
-            #print("vr is " + str(vr))
             print(vars)
-            if vars[0] == -1:
+            if vars[0] == 1:
                 print("Object on the left")
                 t_angle = - math.pi / 5
                 # Stop moving
@@ -135,9 +139,9 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
                 move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
                 print("Dodging to the right")
                 rel_dis.clear()
-                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
                 
-            elif vars[1] == 1:
+            elif vars[0] == -1:
                 print("Object on the right")
                 t_angle = math.pi / 5
                 # Stop moving
@@ -147,15 +151,15 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
                 move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
                 print("Dodging to the left")
                 rel_dis.clear()
-                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
                 
-            elif (result == 0):
-                t_angle = math.pi / 5
-                # Stop moving
-                stop(servo, motor_channel_left, motor_channel_right)
-                # Obstacle detected on the left side
-                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
-                move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
-                print("Object straight ahead, dodging to the left")
-                rel_dis.clear()
-                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+            # elif (result == 0):
+            #     t_angle = math.pi / 5
+            #     # Stop moving
+            #     stop(servo, motor_channel_left, motor_channel_right)
+            #     # Obstacle detected on the left side
+            #     turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
+            #     move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
+            #     print("Object straight ahead, dodging to the left")
+            #     rel_dis.clear()
+            #     god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
