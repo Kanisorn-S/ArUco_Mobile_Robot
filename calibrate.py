@@ -8,7 +8,7 @@ cv.namedWindow("Image Feed")
 # cv.moveWindow("Image Feed", 159, -25)
 
 # Creating a camera object for CSI camera
-cap = nano.Camera(flip = 2, width  = 640, height = 480, fps = 60)
+cap = nano.Camera(camera_type = 1, device_id = 0, flip = 2, width = 640, height = 480, fps = 30)
 
 # Set resolution and framerates according to camera specs
 # cap.set(cv.CAP_PROP_FRAME_WIDTH, 3280)
