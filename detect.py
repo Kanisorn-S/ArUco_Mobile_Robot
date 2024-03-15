@@ -44,7 +44,7 @@ with open('camera_cal.npy', 'rb') as f:
 # ArUco markers dictionary
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_250)
 
-cap = nano.Camera(device_id = 0, flip = 2, width  = 640, height = 480, fps = 60)
+cap = nano.Camera(camera_type = 1, device_id = 0, flip = 2, width  = 640, height = 480, fps = 30)
 
 # Camera Specs
 # camera_width = 640
