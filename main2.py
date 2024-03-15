@@ -21,38 +21,48 @@ import importlib
 from god import god
 
 def main():
-    HALF_ANGLE_LEFT = 55 * math.pi / 180
-    HALF_ANGLE_RIGHT = 62 * math.pi / 180
+    # Initialize PCA
     servo = Adafruit_PCA9685.PCA9685(address = 0x40, busnum = 1)
     servo.set_pwm_freq(60)
+
+    # Set motor channel
     motor_channel_left = 0
     motor_channel_right = 1
     motor_unload = 2
+
+    # Set default wheel speed
     v = 3
     vl = 3
     vr = 3
-    # Right cam
-    cap1 = nano.Camera(device_id = 0, flip = 2, width = 640, height = 480, fps = 30)
-    # Left cam
-    cap2 = nano.Camera(device_id = 1, flip = 2, width = 640, height = 480, fps = 30)
+
+    # Initialize USB cam
+    cap = nano.Camera(device_id = 0, flip = 2, width = 640, height = 480, fps = 30)
     GPIO.setmode(GPIO.BOARD)
+
+    # Set input pin for ir sensors
     inPin = 15
     inPin2 = 19
+
+    # Initialize input pin for ir sensors
     GPIO.setup(inPin, GPIO.IN)
     GPIO.setup(inPin2, GPIO.IN)
+
+    # Set up aruco
     N_ARUCO = 3 # max aruco ID
-    t_aruco = 1
+    t_aruco = 1 # id of target aruco
     rel_dis = {}
-    SCAN_TIME = 25
-    R = 0.03
-    BASELINE = 0.24
-    MAX_SPEED = 255
     marker_size = 100
     t_bot = np.array([0, 0, 0])
     atTarget = False
     with open('/home/ai/Desktop/Code2/ArUCo_Bot/camera_cal.npy', 'rb') as f:
         camera_matrix = np.load(f)
         camera_distortion = np.load(f)
+    
+    # Other variables
+    SCAN_TIME = 25
+    R = 0.03
+    BASELINE = 0.24
+    MAX_SPEED = 255
     # divide t_angle by pi
     NINETY = math.pi / 2
     ROT_TIME_CCW = 6.5

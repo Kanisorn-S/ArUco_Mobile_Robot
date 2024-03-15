@@ -36,7 +36,7 @@ def rotationMatrixToEulerAngles(R) :
  
     return np.array([x, y, z])
 
-def find_target_angle(id, tvec, rvec, rel_dis, t_aruco, cam_id):
+def find_target_angle(id, tvec, rvec, rel_dis, t_aruco):
     '''
     Takes an input tvec : a translational vector which points from the target to the camera
                    rvec : a rotational vector of either the target ArUCo or an anchor ArUCo
@@ -45,8 +45,6 @@ def find_target_angle(id, tvec, rvec, rel_dis, t_aruco, cam_id):
     '''
     if id not in rel_dis.keys():
         return 0, 0
-    HALF_ANGLE_LEFT = 55 * math.pi / 180
-    HALF_ANGLE_RIGHT = 62 * math.pi / 180
     rvec_flipped = rvec * -1
     rotation_matrix, jacobian = cv.Rodrigues(rvec_flipped)
 
@@ -59,10 +57,6 @@ def find_target_angle(id, tvec, rvec, rel_dis, t_aruco, cam_id):
     tvec_r[0] = -tvec_r[0]
     target_angle = math.atan(tvec_r[0]/tvec_r[1])
     current_angle = yaw + rel_dis[id][2]
-    if cam_id == 0:
-        current_angle = current_angle - HALF_ANGLE_LEFT
-    elif cam_id == 1:
-        current_angle = current_angle + HALF_ANGLE_RIGHT
     print(math.degrees(current_angle))
     print(str(rel_dis[t_aruco][2]) + ", " + str(current_angle) + ", " + str(target_angle))
     t_angle = rel_dis[t_aruco][2] - current_angle + target_angle

@@ -20,9 +20,9 @@ import sys
 import importlib
 
 ''' List of functions that needs to be change for single camera
-    - god
-    - scan
-    - complete
+    - god #
+    - scan #
+    - complete #
     - obstacle avoidance #
 ''' 
 
@@ -35,7 +35,7 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
     spin = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr))
     spin.start()
     print("Code reaches here")
-    scan(cap1, cap2, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
+    scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
     print("Code ends")
     spin.terminate()
     stop(servo, motor_channel_left, motor_channel_right)
@@ -52,37 +52,14 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
     f = open("rel_dis2.txt", "w")
     f.write(str(rel_dis))
     f.close()
-    alpha1, t_angle1, tvec1 = complete(cap2, 0, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) # cap2 is left, t_angle1 is alpha
-    alpha2, t_angle2, tvec2 = complete(cap1, 1, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) # cap1 is right, t_angle2 is beta
-    print("t_angle1 is " + str(t_angle1))
-    print("t_angle2 is " + str(t_angle2))
-
-    current_angle = 0
-    if alpha1 == 0:
-        current_angle = alpha2 
-    elif alpha2 == 0:
-        current_angle = alpha1 
-    else:
-        current_angle = (alpha1 + alpha2) / 2
-    target_angle = 0
-    if t_angle1 == 0:
-        target_angle = t_angle2 
-    elif t_angle2 == 0:
-        target_angle = t_angle1 
-    else:
-        target_angle = (t_angle1 + t_angle2) / 2
-    tvec = np.array([0, 0, 0])
-    if np.array_equal(tvec1, np.array([0, 0, 0])):
-        tvec = tvec2
-    elif np.array_equal(tvec2, np.array([0, 0, 0])):
-        tvec = tvec1
-    else:
-        tvec = (tvec1 + tvec2) / 2
+    alpha, t_angle, tvec = complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) 
+    print("t_angle is " + str(t_angle))
+    target_angle = t_angle
     if (target_angle < -180) or (target_angle > 180):
         target_angle = - (360 - target_angle)
     # target_angle = rel_dis[t_aruco][2] - current_angle
     f = open("rel_dis2.txt", "a")
-    f.write(f'current angle is : {str(math.degrees(current_angle))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
+    f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
     f.close()
     
     TURN_SPEED = 0.404 # rad / s
