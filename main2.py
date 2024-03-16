@@ -18,7 +18,7 @@ from obstacle import obstacleAvoidance2
 import importlib.util
 import sys
 import importlib
-from god import god
+from god import god2
 
 def main():
     # Initialize PCA
@@ -80,7 +80,7 @@ def main():
         print("current sensor reading is " + str(result))
     print("Object detected. Begin spinning and scanning")
     
-    god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+    god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
     
     # reached target
     unload(servo, motor_unload, 400, 4)

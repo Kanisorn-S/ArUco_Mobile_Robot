@@ -27,7 +27,7 @@ import importlib
 ''' 
 
 
-def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2):
+def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2):
     
     # Start spinning and Scanning
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
@@ -112,7 +112,7 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
                 move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
                 print("Dodging to the right")
                 rel_dis.clear()
-                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+                god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
                 
             elif ret == -1:
                 print("Object on the right")
@@ -126,4 +126,4 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
                 move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
                 print("Dodging to the left")
                 rel_dis.clear()
-                god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+                god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
