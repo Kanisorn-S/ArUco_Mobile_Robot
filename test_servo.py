@@ -40,12 +40,12 @@ vr = 3
 # time.sleep(5)
 
 print("Testing unloading")
-unload(servo, motor_unload, 1000, 4)
-time.sleep(5)
+#unload(servo, motor_unload, 400, 2)
+#time.sleep(5)
 
 #print("Testing loading")
-#load(servo, motor_unload, 100, 2)
-#time.sleep(5)
+load(servo, motor_unload, 300, 4)
+time.sleep(5)
 
 #print("testing stoping turn")
 #turn(servo, motor_channel_left, motor_channel_right, vl, vr)

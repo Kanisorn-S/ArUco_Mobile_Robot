@@ -83,10 +83,10 @@ def main():
     god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
     
     # reached target
-    unload(servo, motor_unload, 1000, 20)
+    unload(servo, motor_unload, 400, 4)
     print("sleeping")
     time.sleep(5)
-    load(servo, motor_unload, 100, 20)
+    load(servo, motor_unload, 300, 4)
     
 if __name__ == "__main__":
      main()
