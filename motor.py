@@ -91,7 +91,7 @@ def turnR(pca, motor_channel_left, motor_channel_right, vl, duration = 0):
             pca.set_pwm(motor_channel_right, 0, 0)
         stop(pca, motor_channel_left, motor_channel_right)
 
-def turn(pca, motor_channel_left, motor_channel_right, vl, vr, duration = 0, pwml = 0, pwmr = 0):
+def turn(pca, motor_channel_left, motor_channel_right, vl, vr, spinning = True,  duration = 0, pwml = 0, pwmr = 0):
     '''
     Turn the robot without moving using left wheel velocity and right wheel velocity as vl and vr respectively
     '''
@@ -102,10 +102,11 @@ def turn(pca, motor_channel_left, motor_channel_right, vl, vr, duration = 0, pwm
     print("pwml is " + str(pwml))
     print("pwmr is " + str(pwmr))
     if not duration:
-        while True:
+        while spinning:
             pca.set_pwm(motor_channel_left, 0, pwml)
             pca.set_pwm(motor_channel_right, 0, pwmr)
-            time.sleep(2) 
+            time.sleep(2)
+        stop(pca, motor_channel_left, motor_channel_right) 
     else:
         end_time = datetime.now() + timedelta(seconds = duration)
         while datetime.now() < end_time:

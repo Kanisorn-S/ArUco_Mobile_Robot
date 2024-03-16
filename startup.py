@@ -1,7 +1,7 @@
 import cv2 as cv
 import nanocamera as nano
 import time
-from motor import *
+from motor import move_backward, move_forward, turn
 from threading import Thread
 import RPi.GPIO as GPIO 
 import multiprocessing as mp
@@ -83,11 +83,13 @@ def main():
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     print("vl is " + str(vl))
     print("vr is " + str(vr))
-    spin = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr))
+    spinning = True
+    spin = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr, spinning))
     spin.start()
     print("Code reaches here")
     scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
     print("Code ends")
+    spinning = False
     spin.terminate()
     stop(servo, motor_channel_left, motor_channel_right)
 
