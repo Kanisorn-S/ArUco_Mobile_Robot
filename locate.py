@@ -144,4 +144,4 @@ def complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_a
         return current_angle, target_angle, target_tvec
     
     else:
-        return 0, 0, np.array([0, 0, 0])
+        return rel_dis[t_aruco][2], 0, rel_dis[t_aruco]
