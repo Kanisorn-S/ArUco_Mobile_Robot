@@ -54,7 +54,7 @@ def scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruc
     
     # cap1.release()
     # cap2.release()
-    # cv.destroyAllWindows()
+    cv.destroyAllWindows()
 
 
     
