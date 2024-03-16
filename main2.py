@@ -54,7 +54,7 @@ def main():
     marker_size = 100
     t_bot = np.array([0, 0, 0])
     atTarget = False
-    with open('/home/ai/Desktop/Code2/ArUCo_Bot/camera_cal.npy', 'rb') as f:
+    with open('/home/ai/Desktop/Code2/ar_single/camera_cal.npy', 'rb') as f:
         camera_matrix = np.load(f)
         camera_distortion = np.load(f)
     
