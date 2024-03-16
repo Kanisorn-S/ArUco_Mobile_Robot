@@ -1,7 +1,7 @@
 import cv2 as cv
 import nanocamera as nano
 import time
-from motor import move_backward, move_forward, turn
+from motor import move_backward, move_forward, turn, stop
 from threading import Thread
 import RPi.GPIO as GPIO 
 import multiprocessing as mp
@@ -18,7 +18,8 @@ from obstacle import obstacleAvoidance2
 import importlib.util
 import sys
 import importlib
-from god import god
+import Adafruit_PCA9685
+# from god import god
 
 def main():
     # Initialize PCA
@@ -114,6 +115,16 @@ def main():
     f = open("rel_dis2.txt", "a")
     f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
     f.close()
+
+    TURN_SPEED = 0.404 # rad / s
+    DURATION_FACTOR = 1 / TURN_SPEED
+    vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
+    if t_angle < 0:
+        vl = -vl 
+        vr = -vr
+    print("vl is " + str(vl))
+    print("vr is " + str(vr))
+    turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = DURATION_FACTOR * target_angle)
 
 if __name__ == "__main__":
     main()
