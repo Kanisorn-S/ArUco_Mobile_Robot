@@ -14,35 +14,39 @@ v = 3
 vl = 3
 vr = 3
 
-print("Testing moving forward")
-move_forward(servo, motor_channel_left, motor_channel_right, v, 5)
-time.sleep(5)
+# print("Testing moving forward")
+# move_forward(servo, motor_channel_left, motor_channel_right, v, 5)
+# time.sleep(5)
 
-print("Testing moving backward")
-move_backward(servo, motor_channel_left, motor_channel_right, v, 5)
-time.sleep(5)
+# print("Testing moving backward")
+# move_backward(servo, motor_channel_left, motor_channel_right, v, 5)
+# time.sleep(5)
 
-print("Testing stopping")
-move_forward(servo, motor_channel_left, motor_channel_right, v)
+# print("Testing stopping")
+# move_forward(servo, motor_channel_left, motor_channel_right, v)
+# stop(servo, motor_channel_left, motor_channel_right)
+# time.sleep(5)
+
+# print("Testing turning left")
+# turnL(servo, motor_channel_left, motor_channel_right, vr, 5)
+# time.sleep(5)
+
+# print("Testing turning right")
+# turnR(servo, motor_channel_left, motor_channel_right, vl, 5)
+# time.sleep(5)
+
+# print("Testing turning with vl, vr")
+# turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = 5)
+# time.sleep(5)
+
+# print("Testing unloading")
+# unload(servo, motor_unload, 1000, 5)
+# time.sleep(5)
+
+# print("Testing loading")
+# load(servo, motor_unload, 100, 5)
+# time.sleep(5)
+
+print("testing stoping turn")
+turn(servo, motor_channel_left, motor_channel_right, vl, vr)
 stop(servo, motor_channel_left, motor_channel_right)
-time.sleep(5)
-
-print("Testing turning left")
-turnL(servo, motor_channel_left, motor_channel_right, vr, 5)
-time.sleep(5)
-
-print("Testing turning right")
-turnR(servo, motor_channel_left, motor_channel_right, vl, 5)
-time.sleep(5)
-
-print("Testing turning with vl, vr")
-turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = 5)
-time.sleep(5)
-
-print("Testing unloading")
-unload(servo, motor_unload, 1000, 5)
-time.sleep(5)
-
-print("Testing loading")
-load(servo, motor_unload, 100, 5)
-time.sleep(5)

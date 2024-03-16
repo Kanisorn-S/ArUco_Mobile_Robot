@@ -102,11 +102,11 @@ def turn(pca, motor_channel_left, motor_channel_right, vl, vr, spinning = True, 
     print("pwml is " + str(pwml))
     print("pwmr is " + str(pwmr))
     if not duration:
-        while spinning:
-            pca.set_pwm(motor_channel_left, 0, pwml)
-            pca.set_pwm(motor_channel_right, 0, pwmr)
-            time.sleep(2)
-        stop(pca, motor_channel_left, motor_channel_right) 
+        #while True:
+        pca.set_pwm(motor_channel_left, 0, pwml)
+        pca.set_pwm(motor_channel_right, 0, pwmr)
+        #time.sleep(2)
+        #stop(pca, motor_channel_left, motor_channel_right) 
     else:
         end_time = datetime.now() + timedelta(seconds = duration)
         while datetime.now() < end_time:
