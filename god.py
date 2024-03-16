@@ -73,6 +73,9 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
     print("vl is " + str(vl))
     print("vr is " + str(vr))
     print("spin time is " + str(abs(DURATION_FACTOR * target_angle)))
+    f = open("rel_dis2.txt", "a")
+    f.write(f'vl is {vl}, vr is {vr}, spin time is {abs(DURATION_FACTOR * target_angle)}')
+    f.close()
     turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
 
     print("sleeping")
