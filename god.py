@@ -68,7 +68,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     print("sleeping")
     time.sleep(5)
 
-    TURN_SPEED = 0.48 # rad / s
+    TURN_SPEED = 0.49 # rad / s
     DURATION_FACTOR = 1 / TURN_SPEED
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     if target_angle < 0:
