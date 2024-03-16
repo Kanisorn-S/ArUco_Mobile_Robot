@@ -54,8 +54,10 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
     alpha, t_angle, tvec = complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) 
     print("t_angle is " + str(t_angle))
     target_angle = t_angle
-    if (target_angle < - math.pi) or (target_angle > math.pi):
-        target_angle = - ((2 * math.pi) - target_angle)
+    if target_angle < - math.pi:
+        target_angle = (2 * math.pi) - abs(target_angle)
+    elif target_angle > math.pi:
+        target_angle = - ((2 * math.pi) - abs(target_angle))
     # target_angle = rel_dis[t_aruco][2] - current_angle
     f = open("rel_dis2.txt", "a")
     f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
