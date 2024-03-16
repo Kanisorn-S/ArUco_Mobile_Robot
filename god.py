@@ -14,7 +14,7 @@ from move import inv_kine
 import math
 import concurrent.futures
 from locate import complete
-from obstacle import obstacleAvoidance2
+from obstacle import obstacleAvoidance
 import importlib.util
 import sys
 import importlib
@@ -28,16 +28,15 @@ import importlib
 
 
 def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2):
+    
     # Start spinning and Scanning
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     print("vl is " + str(vl))
     print("vr is " + str(vr))
-    spin = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr))
-    spin.start()
+    turn(servo, motor_channel_left, motor_channel_right, vl, vr)
     print("Code reaches here")
     scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
     print("Code ends")
-    spin.terminate()
     stop(servo, motor_channel_left, motor_channel_right)
 
     print("Complete scanning")
@@ -61,49 +60,39 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
     f = open("rel_dis2.txt", "a")
     f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
     f.close()
-    
+    print("sleeping")
+    time.sleep(5)
     TURN_SPEED = 0.404 # rad / s
     DURATION_FACTOR = 1 / TURN_SPEED
-    t_angle = target_angle
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     if t_angle < 0:
         vl = -vl 
         vr = -vr
     print("vl is " + str(vl))
     print("vr is " + str(vr))
-    spin2 = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR))
-    spin2.start()
-    TRAVEL_TIME = 5
+    print("spin time is " + str(abs(DURATION_FACTOR * target_angle)))
+    turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
+
+    print("sleeping")
+    time.sleep(5)
+
+    TRAVEL_TIME = 15
     vl, vr = inv_kine(TRAVEL_TIME, R, BASELINE, MAX_SPEED, tvec = tvec)
     #TRAVEL_TIME = 0
     move_forward(servo, motor_channel_left, motor_channel_right, vl)
     end_time = datetime.now() + timedelta(seconds = TRAVEL_TIME)
 
     # Obstacle Avoidance
-    vars = {
-        0:0
-    }
-    caps = [cap]
     while True:
             if datetime.now() > end_time:
                 break
-            q = mp.Queue()
-            processes = []
-            for id, cap in enumerate(caps):
-                p = mp.Process(target = obstacleAvoidance2, args = (cap, id, q))
-                processes.append(p)
-                p.start()
-            for p in processes:
-                i, ret = q.get()
-                vars[i] = ret 
-            for p in processes:
-                p.join()
+            ret = obstacleAvoidance(cap)
             TURN_SPEED = 0.404 # rad / s
             DURATION_FACTOR = 1 / TURN_SPEED
             result = read_sensor(inPin2)
             vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
-            print(vars)
-            if vars[0] == 1:
+            print("ret is " + str(ret))
+            if ret == 1:
                 print("Object on the left")
                 t_angle = - math.pi / 5
                 # Stop moving
@@ -118,7 +107,7 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
                 rel_dis.clear()
                 god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
                 
-            elif vars[0] == -1:
+            elif ret == -1:
                 print("Object on the right")
                 t_angle = math.pi / 5
                 # Stop moving
@@ -129,14 +118,3 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
                 print("Dodging to the left")
                 rel_dis.clear()
                 god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
-                
-            # elif (result == 0):
-            #     t_angle = math.pi / 5
-            #     # Stop moving
-            #     stop(servo, motor_channel_left, motor_channel_right)
-            #     # Obstacle detected on the left side
-            #     turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
-            #     move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
-            #     print("Object straight ahead, dodging to the left")
-            #     rel_dis.clear()
-            #     god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)

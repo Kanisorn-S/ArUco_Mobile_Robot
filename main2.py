@@ -84,6 +84,8 @@ def main():
     
     # reached target
     unload(servo, motor_unload, 1000, 20)
+    print("sleeping")
+    time.sleep(5)
     load(servo, motor_unload, 100, 20)
     
 if __name__ == "__main__":
