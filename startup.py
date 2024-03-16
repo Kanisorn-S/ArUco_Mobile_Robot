@@ -70,67 +70,39 @@ def main():
         print("current sensor reading is " + str(result))
     print("Object detected. Begin spinning and scanning")
     
-    # god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot)
-    # Obstacle avoidance
-    vars = {
-        0:0, 
-        1:0
-    }
-    caps = [cap1, cap2]
-    while True:
-            q = mp.Queue()
-            processes = []
-            for id, cap in enumerate(caps):
-                p = mp.Process(target = obstacleAvoidance2, args = (cap, id, q))
-                processes.append(p)
-                p.start()
-            for p in processes:
-                i, ret = q.get()
-                vars[i] = ret 
-            for p in processes:
-                p.join()
-            TURN_SPEED = 0.404 # rad / s
-            DURATION_FACTOR = 1 / TURN_SPEED
-            result = read_sensor(inPin2)
-            #print("Moving straight forward")
-            vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
-            #print("vl is " + str(vl))
-            #print("vr is " + str(vr))
-            print(vars)
-            if vars[0] == -1:
-                print("Object on the left")
-                t_angle = - math.pi / 5
-                # Stop moving
-                if t_angle < 0:
-                    vl = -vl 
-                    vr = -vr
-                stop(servo, motor_channel_left, motor_channel_right)
-                # Obstacle detected on the left side
-                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
-                move_forward(servo, motor_channel_left, motor_channel_right, v, 3)
-                print("Dodging to the right")
-                #god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot)
-                
-            elif vars[1] == 1:
-                print("Object on the right")
-                t_angle = math.pi / 5
-                # Stop moving
-                stop(servo, motor_channel_left, motor_channel_right)
-                # Obstacle detected on the left side
-                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
-                move_forward(servo, motor_channel_left, motor_channel_right, v, 3)
-                print("Dodging to the left")
-                #god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot)
-                
-            elif (result == 0):
-                t_angle = math.pi / 5
-                # Stop moving
-                stop(servo, motor_channel_left, motor_channel_right)
-                # Obstacle detected on the left side
-                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
-                move_forward(servo, motor_channel_left, motor_channel_right, v, 3)
-                print("Object straight ahead, dodging to the left")
-                #god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap1, cap2, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot)
+    # Start spinning and Scanning
+    vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
+    print("vl is " + str(vl))
+    print("vr is " + str(vr))
+    spin = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr))
+    spin.start()
+    print("Code reaches here")
+    scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
+    print("Code ends")
+    spin.terminate()
+    stop(servo, motor_channel_left, motor_channel_right)
+
+    print("Complete scanning")
+    print("Result:")
+    print(rel_dis)
+    
+    rel_dis[0][2] = 0
+    rel_dis[1][2] = - math.pi / 2
+    rel_dis[2][2] = math.pi
+    rel_dis[3][2] = math.pi / 2
+    
+    f = open("rel_dis2.txt", "w")
+    f.write(str(rel_dis))
+    f.close()
+    alpha, t_angle, tvec = complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) 
+    print("t_angle is " + str(t_angle))
+    target_angle = t_angle
+    if (target_angle < -180) or (target_angle > 180):
+        target_angle = - (360 - target_angle)
+    # target_angle = rel_dis[t_aruco][2] - current_angle
+    f = open("rel_dis2.txt", "a")
+    f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
+    f.close()
     
 if __name__ == "__main__":
      main()
