@@ -1,5 +1,5 @@
 import Adafruit_PCA9685
-from motor import *
+from motor import move_forward
 import time
 
 # Initialize the PCA9685 using the default address (0x40).
@@ -14,9 +14,9 @@ v = 3
 vl = 3
 vr = 3
 
-# print("Testing moving forward")
-# move_forward(servo, motor_channel_left, motor_channel_right, v, 5)
-# time.sleep(5)
+print("Testing moving forward")
+move_forward(servo, motor_channel_left, motor_channel_right, v, 5)
+time.sleep(5)
 
 # print("Testing moving backward")
 # move_backward(servo, motor_channel_left, motor_channel_right, v, 5)
@@ -39,13 +39,13 @@ vr = 3
 # turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = 5)
 # time.sleep(5)
 
-print("Testing unloading")
+#print("Testing unloading")
 #unload(servo, motor_unload, 400, 2)
 #time.sleep(5)
 
 #print("Testing loading")
-load(servo, motor_unload, 300, 4)
-time.sleep(5)
+#load(servo, motor_unload, 300, 4)
+#time.sleep(5)
 
 #print("testing stoping turn")
 #turn(servo, motor_channel_left, motor_channel_right, vl, vr)
