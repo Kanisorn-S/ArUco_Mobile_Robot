@@ -67,7 +67,7 @@ def god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_chan
     TURN_SPEED = 0.404 # rad / s
     DURATION_FACTOR = 1 / TURN_SPEED
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
-    if t_angle < 0:
+    if target_angle < 0:
         vl = -vl 
         vr = -vr
     print("vl is " + str(vl))
