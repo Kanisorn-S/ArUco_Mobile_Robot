@@ -131,3 +131,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 print("Dodging to the left")
                 rel_dis.clear()
                 god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+
+    stop(servo, motor_channel_left, motor_channel_right)
+    print("sleeping")
+    time.sleep(5)
