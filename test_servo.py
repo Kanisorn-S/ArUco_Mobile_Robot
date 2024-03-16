@@ -10,7 +10,7 @@ servo.set_pwm_freq(60)
 motor_channel_left = 0
 motor_channel_right = 1
 motor_unload = 2
-v = 3
+v = 1.6
 vl = 3
 vr = 3
 
