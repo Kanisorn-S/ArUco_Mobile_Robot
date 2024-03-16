@@ -52,7 +52,7 @@ def getChunks(l, n):
 
 testmode = 2
 
-cap = nano.Camera(device_id = 0, flip = 2, width  = 640, height = 480, fps = 60)
+cap = nano.Camera(camera_type = 1, device_id = 0, flip = 2, width  = 640, height = 480, fps = 30)
 
 try:
    if not os.path.exists('data'):
