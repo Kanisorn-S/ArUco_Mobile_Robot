@@ -115,7 +115,8 @@ def main():
     f = open("rel_dis2.txt", "a")
     f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
     f.close()
-
+    print("sleeping")
+    time.sleep(5)
     TURN_SPEED = 0.404 # rad / s
     DURATION_FACTOR = 1 / TURN_SPEED
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
@@ -124,7 +125,8 @@ def main():
         vr = -vr
     print("vl is " + str(vl))
     print("vr is " + str(vr))
-    turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = DURATION_FACTOR * target_angle)
+    print("spin time is " + str(abs(DURATION_FACTOR * target_angle)))
+    turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
 
 if __name__ == "__main__":
     main()
