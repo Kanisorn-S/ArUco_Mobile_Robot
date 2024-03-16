@@ -95,7 +95,7 @@ def clean_tvec(ids, tvec_list_all, rvec_list_all):
 
     return realworld_tvec
 
-def complete(cap, cam_id, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis, find_pos = False):
+def complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis, find_pos = False):
     '''
     Takes in all information of a single camera and returns a tvec pointing from the target to the camera
     '''
@@ -126,7 +126,7 @@ def complete(cap, cam_id, aruco_dict, camera_matrix, camera_distortion, marker_s
             tvec = tvec_list_all[0][0]
 
             # Find target angle to reorient robot
-            current_angle, target_angle = find_target_angle(id, target_tvec, rvec, rel_dis, t_aruco, cam_id)
+            current_angle, target_angle = find_target_angle(id, target_tvec, rvec, rel_dis, t_aruco)
 
         else:
             # clean ids

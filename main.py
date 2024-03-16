@@ -62,12 +62,11 @@ with open('camera_cal.npy', 'rb') as f:
 # ArUco markers dictionary
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_250)
 
-# Initialize two CSI cameras
-cap1 = nano.Camera(device_id = 0, flip = 2, width  = 640, height = 480, fps = 60)
-cap2 = nano.Camera(device_id = 1, flip = 2, width  = 640, height = 480, fps = 60)
+# Initialize SUSB Camera
+cap = nano.Camera(camera_type = 1, device_id = 0, flip = 2, width  = 640, height = 480, fps = 60)
 
 # initial scan
-scan(cap1, cap2, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot)
+scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot)
 
 while True:
     if (atBase and not GPIO.input(inPin)) or t_aruco == 0:
