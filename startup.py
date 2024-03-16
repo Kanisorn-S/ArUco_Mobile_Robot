@@ -13,7 +13,7 @@ from move import inv_kine
 import math
 import concurrent.futures
 from locate import complete
-from obstacle import obstacleAvoidance2
+from obstacle import obstacleAvoidance
 import importlib.util
 import sys
 import importlib
@@ -122,6 +122,66 @@ def main():
     print("vr is " + str(vr))
     print("spin time is " + str(abs(DURATION_FACTOR * target_angle)))
     turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
+
+    print("sleeping")
+    time.sleep(5)
+
+    TRAVEL_TIME = 5
+    vl, vr = inv_kine(TRAVEL_TIME, R, BASELINE, MAX_SPEED, tvec = tvec)
+    #TRAVEL_TIME = 0
+    move_forward(servo, motor_channel_left, motor_channel_right, vl)
+    end_time = datetime.now() + timedelta(seconds = TRAVEL_TIME)
+
+    # Obstacle Avoidance
+    vars = {
+        0:0
+    }
+    caps = [cap]
+    while True:
+            if datetime.now() > end_time:
+                break
+            q = mp.Queue()
+            processes = []
+            for id, cap in enumerate(caps):
+                p = mp.Process(target = obstacleAvoidance, args = (cap, id, q))
+                processes.append(p)
+                p.start()
+            for p in processes:
+                i, ret = q.get()
+                vars[i] = ret 
+            for p in processes:
+                p.join()
+            TURN_SPEED = 0.404 # rad / s
+            DURATION_FACTOR = 1 / TURN_SPEED
+            result = read_sensor(inPin2)
+            vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
+            print(vars)
+            if vars[0] == 1:
+                print("Object on the left")
+                t_angle = - math.pi / 5
+                # Stop moving
+                if t_angle < 0:
+                    vl = -vl 
+                    vr = -vr
+                stop(servo, motor_channel_left, motor_channel_right)
+                # Obstacle detected on the left side
+                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
+                move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
+                print("Dodging to the right")
+                rel_dis.clear()
+                #god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+                
+            elif vars[0] == -1:
+                print("Object on the right")
+                t_angle = math.pi / 5
+                # Stop moving
+                stop(servo, motor_channel_left, motor_channel_right)
+                # Obstacle detected on the left side
+                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
+                move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
+                print("Dodging to the left")
+                rel_dis.clear()
+                #god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
 
 if __name__ == "__main__":
     main()
