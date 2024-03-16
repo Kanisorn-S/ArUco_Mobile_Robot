@@ -1,5 +1,5 @@
-from locate import *
-from motor import *
+# from locate import *
+# from motor import *
 import numpy as np
 import math
 import cv2 as cv  
@@ -87,21 +87,21 @@ def inv_kine(time, r, baseline, max_speed,tvec = np.array([0, 0, 0]), theta = 0)
     print("vr is " + str(vr) + " rad/s")
     return vl, vr
 
-def locate_and_move(cap1, cap2, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis, thirty_degrees, ROT_TIME, R, BASELINE, MAX_SPEED, TRAVEL_TIME):
-    # Initial orioentation and movement
-    alpha, tvec1 = complete(cap1, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) # cap1 is left, t_angle1 is alpha
-    beta, tvec2 = complete(cap2, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) # cap2 is right, t_angle2 is beta
+# def locate_and_move(cap1, cap2, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis, thirty_degrees, ROT_TIME, R, BASELINE, MAX_SPEED, TRAVEL_TIME):
+#     # Initial orioentation and movement
+#     alpha, tvec1 = complete(cap1, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) # cap1 is left, t_angle1 is alpha
+#     beta, tvec2 = complete(cap2, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) # cap2 is right, t_angle2 is beta
 
-    t_angle = ((thirty_degrees + beta) + (alpha - thirty_degrees)) / 2
-    tvec = (tvec1 + tvec2) / 2
+#     t_angle = ((thirty_degrees + beta) + (alpha - thirty_degrees)) / 2
+#     tvec = (tvec1 + tvec2) / 2
 
-    # Use inverse kinematics to find wheel velocity and reorient the robot
-    vl, vr = inv_kine(ROT_TIME, R, BASELINE, MAX_SPEED, theta = t_angle)
-    turn(vl, vr)
+#     # Use inverse kinematics to find wheel velocity and reorient the robot
+#     vl, vr = inv_kine(ROT_TIME, R, BASELINE, MAX_SPEED, theta = t_angle)
+#     turn(vl, vr)
 
-    # Move towards the target
-    vl, vr = inv_kine(TRAVEL_TIME, R, BASELINE, MAX_SPEED, tvec = tvec)
-    move_forward(vl)
+#     # Move towards the target
+#     vl, vr = inv_kine(TRAVEL_TIME, R, BASELINE, MAX_SPEED, tvec = tvec)
+#     move_forward(vl)
 
 
 
