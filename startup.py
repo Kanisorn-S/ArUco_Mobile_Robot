@@ -133,30 +133,16 @@ def main():
     end_time = datetime.now() + timedelta(seconds = TRAVEL_TIME)
 
     # Obstacle Avoidance
-    vars = {
-        0:0
-    }
-    caps = [cap]
     while True:
             if datetime.now() > end_time:
                 break
-            q = mp.Queue()
-            processes = []
-            for id, cap in enumerate(caps):
-                p = mp.Process(target = obstacleAvoidance, args = (cap, q))
-                processes.append(p)
-                p.start()
-            for p in processes:
-                i, ret = q.get()
-                vars[i] = ret 
-            for p in processes:
-                p.join()
+            ret = obstacleAvoidance(cap)
             TURN_SPEED = 0.404 # rad / s
             DURATION_FACTOR = 1 / TURN_SPEED
             result = read_sensor(inPin2)
             vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
-            print(vars)
-            if vars[0] == 1:
+            print("ret is " + str(ret))
+            if ret == 1:
                 print("Object on the left")
                 t_angle = - math.pi / 5
                 # Stop moving
@@ -171,7 +157,7 @@ def main():
                 rel_dis.clear()
                 #god(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
                 
-            elif vars[0] == -1:
+            elif ret == -1:
                 print("Object on the right")
                 t_angle = math.pi / 5
                 # Stop moving

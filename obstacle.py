@@ -32,7 +32,7 @@ def getChunks(l, n):
 
     return a
 
-def obstacleAvoidance(cap, queue):
+def obstacleAvoidance(cap):
     '''
     Function that takes in a frame captured from the camera and
     returns the direction the robot should move
@@ -72,15 +72,15 @@ def obstacleAvoidance(cap, queue):
             EdgeArray.append(pixel)
 
 
-        for x in range(len(EdgeArray)-1):
+        #for x in range(len(EdgeArray)-1):
 
-            cv.line(img, EdgeArray[x], EdgeArray[x+1], (0,255,0), 1)
+            #cv.line(img, EdgeArray[x], EdgeArray[x+1], (0,255,0), 1)
 
 
 
-        for x in range(len(EdgeArray)):
+        #for x in range(len(EdgeArray)):
 
-            cv.line(img, (x*StepSize, img_h), EdgeArray[x],(0,255,0),1)
+            #cv.line(img, (x*StepSize, img_h), EdgeArray[x],(0,255,0),1)
 
 
         chunks = getChunks(EdgeArray,int(len(EdgeArray)/3)) # 5
@@ -108,14 +108,14 @@ def obstacleAvoidance(cap, queue):
 
             c.append([avg_y,avg_x])
 
-            cv.line(frame,(320,480),(avg_x,avg_y),(255,0,0),2)  
+            #cv.line(frame,(320,480),(avg_x,avg_y),(255,0,0),2)  
 
         # print(c)
 
         forwardEdge = c[1]
         # print(forwardEdge)
 
-        cv.line(frame,(320,480),(forwardEdge[1],forwardEdge[0]),(0,255,0),3)   
+        #cv.line(frame,(320,480),(forwardEdge[1],forwardEdge[0]),(0,255,0),3)   
         
         y = (min(c))
         # print(y)
@@ -145,7 +145,7 @@ def obstacleAvoidance(cap, queue):
 
 
 
-        queue.put((0, ret))
+        return ret
     cap.release()
     cv.destroyAllWindows()
 
