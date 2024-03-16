@@ -84,14 +84,10 @@ def main():
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     print("vl is " + str(vl))
     print("vr is " + str(vr))
-    spinning = True
-    spin = mp.Process(target = turn, args = (servo, motor_channel_left, motor_channel_right, vl, vr, spinning))
-    spin.start()
+    turn(servo, motor_channel_left, motor_channel_right, vl, vr)
     print("Code reaches here")
     scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
     print("Code ends")
-    spinning = False
-    spin.terminate()
     stop(servo, motor_channel_left, motor_channel_right)
 
     print("Complete scanning")
