@@ -39,15 +39,15 @@ vr = 3
 # turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = 5)
 # time.sleep(5)
 
-# print("Testing unloading")
-# unload(servo, motor_unload, 1000, 5)
-# time.sleep(5)
-
-# print("Testing loading")
-# load(servo, motor_unload, 100, 5)
-# time.sleep(5)
-
-print("testing stoping turn")
-turn(servo, motor_channel_left, motor_channel_right, vl, vr)
+print("Testing unloading")
+unload(servo, motor_unload, 1000, 4)
 time.sleep(5)
-stop(servo, motor_channel_left, motor_channel_right)
+
+#print("Testing loading")
+#load(servo, motor_unload, 100, 2)
+#time.sleep(5)
+
+#print("testing stoping turn")
+#turn(servo, motor_channel_left, motor_channel_right, vl, vr)
+#time.sleep(5)
+#stop(servo, motor_channel_left, motor_channel_right)
