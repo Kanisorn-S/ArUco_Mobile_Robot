@@ -53,9 +53,9 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     f.close()
     alpha, t_angle, tvec = complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) 
     print("t_angle is " + str(t_angle))
-    if t_angle == 0:
-        rel_dis.clear()
-        god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
+    # if t_angle == 0:
+    #     rel_dis.clear()
+    #     god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
     target_angle = t_angle
     if target_angle < - math.pi:
         target_angle = (2 * math.pi) - abs(target_angle)
