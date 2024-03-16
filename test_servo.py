@@ -36,7 +36,7 @@ turnR(servo, motor_channel_left, motor_channel_right, vl, 5)
 time.sleep(5)
 
 print("Testing turning with vl, vr")
-turn(servo, motor_channel_left, motor_channel_right, vl, vr, 5)
+turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = 5)
 time.sleep(5)
 
 print("Testing unloading")
