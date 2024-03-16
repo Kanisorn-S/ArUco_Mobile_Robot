@@ -82,15 +82,15 @@ def main():
     
     time.sleep(5)
 
-    vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
-    print("vl is " + str(vl))
-    print("vr is " + str(vr))
-    turn(servo, motor_channel_left, motor_channel_right, vl, vr)
+    # vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
+    # print("vl is " + str(vl))
+    # print("vr is " + str(vr))
+    # turn(servo, motor_channel_left, motor_channel_right, vl, vr)
 
-    # V = 1.6
-    # SPEED = 0.104
-    # TRAVEL_TIME = 5 
-    # move_forward(servo, motor_channel_left, motor_channel_right, V, TRAVEL_TIME)
+    V = 1.6
+    SPEED = 0.104
+    TRAVEL_TIME = 5 
+    move_forward(servo, motor_channel_left, motor_channel_right, V, TRAVEL_TIME)
 
 
 if __name__ == "__main__":
