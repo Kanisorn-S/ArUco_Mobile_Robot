@@ -1,13 +1,13 @@
 from time import sleep
 from locate import complete
-from motor import *
+# from motor import *
 import cv2 as cv 
 import numpy as np
 import math 
 import os 
 import nanocamera as nano
 from threading import Thread
-from move import locate_and_move
+# from move import locate_and_move
 import importlib
 import multiprocessing as mp
 
