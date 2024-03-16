@@ -49,4 +49,5 @@ vr = 3
 
 print("testing stoping turn")
 turn(servo, motor_channel_left, motor_channel_right, vl, vr)
+time.sleep(5)
 stop(servo, motor_channel_left, motor_channel_right)
