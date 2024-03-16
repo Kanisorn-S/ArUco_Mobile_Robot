@@ -126,7 +126,7 @@ def main():
     print("sleeping")
     time.sleep(5)
 
-    TRAVEL_TIME = 5
+    TRAVEL_TIME = 15
     vl, vr = inv_kine(TRAVEL_TIME, R, BASELINE, MAX_SPEED, tvec = tvec)
     #TRAVEL_TIME = 0
     move_forward(servo, motor_channel_left, motor_channel_right, vl)
