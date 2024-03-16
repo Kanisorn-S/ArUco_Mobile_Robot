@@ -1,7 +1,7 @@
 import cv2 as cv
 import nanocamera as nano
 import time
-from motor import *
+from motor import move_forward, turn, stop
 from threading import Thread
 import RPi.GPIO as GPIO 
 import multiprocessing as mp
