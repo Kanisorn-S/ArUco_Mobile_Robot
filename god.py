@@ -67,7 +67,8 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     f.close()
     print("sleeping")
     time.sleep(5)
-    TURN_SPEED = 0.5 # rad / s
+
+    TURN_SPEED = 0.48 # rad / s
     DURATION_FACTOR = 1 / TURN_SPEED
     vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
     if target_angle < 0:
@@ -106,7 +107,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
             print("ret is " + str(ret))
             if ret == 1:
                 print("Object on the left")
-                t_angle = - math.pi / 5
+                t_angle = - math.pi / 2
                 # Stop moving
                 if t_angle < 0:
                     vl = -vl 
@@ -123,7 +124,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 
             elif ret == -1:
                 print("Object on the right")
-                t_angle = math.pi / 5
+                t_angle = math.pi / 2
                 # Stop moving
                 stop(servo, motor_channel_left, motor_channel_right)
                 print("sleeping")
