@@ -143,7 +143,7 @@ def main():
             q = mp.Queue()
             processes = []
             for id, cap in enumerate(caps):
-                p = mp.Process(target = obstacleAvoidance, args = (cap, id, q))
+                p = mp.Process(target = obstacleAvoidance, args = (cap, q))
                 processes.append(p)
                 p.start()
             for p in processes:
