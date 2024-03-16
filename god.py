@@ -80,11 +80,15 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
 
     print("sleeping")
     time.sleep(5)
-
-    TRAVEL_TIME = 15
-    vl, vr = inv_kine(TRAVEL_TIME, R, BASELINE, MAX_SPEED, tvec = tvec)
-    #TRAVEL_TIME = 0
-    move_forward(servo, motor_channel_left, motor_channel_right, vl)
+    V = 1.6
+    SPEED = 0.104
+    tvec_m = tvec / 1000
+    dis = math.sqrt(tvec_m[0]**2 + tvec_m[1]**2)
+    TRAVEL_TIME = dis / SPEED 
+    f = open("rel_dis2.txt", "a")
+    f.write(f'tvec_m is {tvec_m}, dis is {dis}, TRAVEL_TIME is {TRAVEL_TIME}')
+    f.close()
+    move_forward(servo, motor_channel_left, motor_channel_right, V)
     end_time = datetime.now() + timedelta(seconds = TRAVEL_TIME)
 
     # Obstacle Avoidance
