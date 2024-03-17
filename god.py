@@ -35,7 +35,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     print("vr is " + str(vr))
     turn(servo, motor_channel_left, motor_channel_right, vl, vr)
     print("Code reaches here")
-    scan(cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
+    scan(servo, motor_channel_left, motor_channel_right, vl, vr, cap, N_ARUCO, t_aruco, rel_dis, SCAN_TIME, R, BASELINE, MAX_SPEED, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, N_ARUCO)
     print("Code ends")
     stop(servo, motor_channel_left, motor_channel_right)
 
