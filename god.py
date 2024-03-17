@@ -106,6 +106,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
             vl, vr = inv_kine(SCAN_TIME, R, BASELINE, MAX_SPEED, theta = 2 * math.pi)
             print("ret is " + str(ret))
             if ret == 1:
+                v = 1.6
                 print("Object on the left")
                 t_angle = - math.pi / 2
                 # Stop moving
@@ -117,7 +118,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 time.sleep(3)
                 # Obstacle detected on the left side
                 turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = t_angle * DURATION_FACTOR)
-                move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
+                move_forward(servo, motor_channel_left, motor_channel_right, v, 2)
                 print("Dodging to the right")
                 rel_dis.clear()
                 god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
@@ -125,6 +126,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 return None 
                 
             elif ret == -1:
+                v = 1.6
                 print("Object on the right")
                 t_angle = math.pi / 2
                 # Stop moving
@@ -133,7 +135,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 time.sleep(3)
                 # Obstacle detected on the left side
                 turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = t_angle * DURATION_FACTOR)
-                move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
+                move_forward(servo, motor_channel_left, motor_channel_right, v, 2)
                 print("Dodging to the left")
                 rel_dis.clear()
                 god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_channel_right, cap, N_ARUCO, t_aruco, rel_dis, aruco_dict, camera_matrix, camera_distortion, marker_size, t_bot, inPin2)
