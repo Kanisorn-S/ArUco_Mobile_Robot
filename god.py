@@ -48,7 +48,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     rel_dis[2][2] = math.pi
     rel_dis[3][2] = math.pi / 2
     
-    f = open("rel_dis2.txt", "w")
+    f = open("rel_dis3.txt", "w")
     f.write(str(rel_dis))
     f.close()
     alpha, t_angle, tvec = complete(cap, aruco_dict, camera_matrix, camera_distortion, marker_size, t_aruco, rel_dis) 
@@ -62,7 +62,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     elif target_angle > math.pi:
         target_angle = - ((2 * math.pi) - abs(target_angle))
     # target_angle = rel_dis[t_aruco][2] - current_angle
-    f = open("rel_dis2.txt", "a")
+    f = open("rel_dis3.txt", "a")
     f.write(f'current angle is : {str(math.degrees(alpha))}, tvec is : {str(tvec)}, target_angle is : {str(math.degrees(target_angle))}')
     f.close()
     print("sleeping")
@@ -77,7 +77,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     print("vl is " + str(vl))
     print("vr is " + str(vr))
     print("spin time is " + str(abs(DURATION_FACTOR * target_angle)))
-    f = open("rel_dis2.txt", "a")
+    f = open("rel_dis3.txt", "a")
     f.write(f'vl is {vl}, vr is {vr}, spin time is {abs(DURATION_FACTOR * target_angle)}')
     f.close()
     turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
@@ -89,7 +89,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     tvec_m = tvec / 1000
     dis = math.sqrt(tvec_m[0]**2 + tvec_m[1]**2)
     TRAVEL_TIME = dis / SPEED 
-    f = open("rel_dis2.txt", "a")
+    f = open("rel_dis3.txt", "a")
     f.write(f'tvec_m is {tvec_m}, dis is {dis}, TRAVEL_TIME is {TRAVEL_TIME}')
     f.close()
     move_forward(servo, motor_channel_left, motor_channel_right, V)
