@@ -36,9 +36,9 @@ def check_complete_dict(n_aruco, rel_dis):
     for i in range(n_aruco + 1):
         if i not in rel_dis.keys():
             return False 
-    for value in rel_dis.values():
-        if len(value) < 10:
-            return False
+    # for value in rel_dis.values():
+    #     if len(value) < 10:
+    #         return False
     average(rel_dis)
     return True
 

@@ -116,7 +116,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 print("sleeping")
                 time.sleep(3)
                 # Obstacle detected on the left side
-                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
+                turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = t_angle * DURATION_FACTOR)
                 move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
                 print("Dodging to the right")
                 rel_dis.clear()
@@ -132,7 +132,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 print("sleeping")
                 time.sleep(3)
                 # Obstacle detected on the left side
-                turn(servo, motor_channel_left, motor_channel_right, vl, vr, t_angle * DURATION_FACTOR)
+                turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = t_angle * DURATION_FACTOR)
                 move_forward(servo, motor_channel_left, motor_channel_right, vl, 3)
                 print("Dodging to the left")
                 rel_dis.clear()

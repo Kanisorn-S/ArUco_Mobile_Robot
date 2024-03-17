@@ -36,7 +36,7 @@ def scan(servo, motor_channel_left, motor_channel_right, vl, vr, cap, N_ARUCO, t
         corners, ids, rejected = aruco.detectMarkers(gray_frame, aruco_dict, camera_matrix, camera_distortion)
 
         if ids is not None:
-            stop(servo, motor_channel_left, motor_channel_right)
+            # stop(servo, motor_channel_left, motor_channel_right)
             rvec_list_all, tvec_list_all, _objPoints = aruco.estimatePoseSingleMarkers(corners, marker_size, camera_matrix, camera_distortion)
             # realworld_tvec points from aruco to camera
             realworld_tvec = clean_tvec(ids, tvec_list_all, rvec_list_all)
@@ -45,7 +45,7 @@ def scan(servo, motor_channel_left, motor_channel_right, vl, vr, cap, N_ARUCO, t
 
             print("rel_dis is now: ")
             print(rel_dis)
-            turn(servo, motor_channel_left, motor_channel_right, vl, vr)
+            # turn(servo, motor_channel_left, motor_channel_right, vl, vr)
         
         # cv.imshow("display1", frame1)
         # cv.imshow("display2", frame2)
