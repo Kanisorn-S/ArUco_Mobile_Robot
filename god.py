@@ -99,7 +99,7 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     while True:
             if datetime.now() > end_time:
                 break
-            ret = obstacleAvoidance(cap)
+            ret = obstacleAvoidance(cap, aruco_dict, camera_matrix, camera_distortion)
             TURN_SPEED = 0.404 # rad / s
             DURATION_FACTOR = 1 / TURN_SPEED
             result = read_sensor(inPin2)

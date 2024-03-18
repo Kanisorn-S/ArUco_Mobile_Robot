@@ -10,6 +10,7 @@ from threading import Thread
 # from move import locate_and_move
 import importlib
 import multiprocessing as mp
+import cv2.aruco as aruco
 
 
 def calc_dist(p1, p2):
@@ -32,7 +33,7 @@ def getChunks(l, n):
 
     return a
 
-def obstacleAvoidance(cap):
+def obstacleAvoidance(cap, aruco_dict, camera_matrix, camera_distortion):
     '''
     Function that takes in a frame captured from the camera and
     returns the direction the robot should move
@@ -42,6 +43,13 @@ def obstacleAvoidance(cap):
     while True:
 
         frame = cap.read()
+
+        gray_frame = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+
+        corners, ids, rejected = aruco.detectMarkers(gray_frame, aruco_dict, camera_matrix, camera_distortion)
+        
+        if ids is not None:
+            return 0
 
         img = frame.copy()
 
