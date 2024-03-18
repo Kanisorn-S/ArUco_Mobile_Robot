@@ -129,7 +129,7 @@ def obstacleAvoidance(cap, aruco_dict, camera_matrix, camera_distortion):
         y = (min(c))
         # print(y)
         
-        if forwardEdge[0] > 260: #200 # >230 works better 
+        if forwardEdge[0] > 355: #200 # >230 works better 
 
             if y[1] < 310:
                 direction = "left "

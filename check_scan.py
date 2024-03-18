@@ -56,7 +56,7 @@ def scan(servo, motor_channel_left, motor_channel_right, vl, vr, cap, N_ARUCO, t
     
     # cap1.release()
     # cap2.release()
-    cv.destroyAllWindows()
+    # cv.destroyAllWindows()
 
 
     
