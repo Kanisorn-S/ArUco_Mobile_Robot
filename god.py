@@ -80,7 +80,8 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
     f = open("rel_dis3.txt", "a")
     f.write(f'vl is {vl}, vr is {vr}, spin time is {abs(DURATION_FACTOR * target_angle)}')
     f.close()
-    turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
+    if target_angle != 0:
+        turn(servo, motor_channel_left, motor_channel_right, vl, vr, duration = abs(DURATION_FACTOR * target_angle))
 
     print("sleeping")
     time.sleep(5)
@@ -143,5 +144,8 @@ def god2(SCAN_TIME, R, BASELINE, MAX_SPEED, servo, motor_channel_left, motor_cha
                 return None
 
     stop(servo, motor_channel_left, motor_channel_right)
+    #cap.release()
+    #cv.destroyAllWindows()
+    #open('rel_dis3.txt', 'w').close()
     print("sleeping")
     time.sleep(5)
