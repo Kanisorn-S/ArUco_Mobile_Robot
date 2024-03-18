@@ -49,6 +49,7 @@ def obstacleAvoidance(cap, aruco_dict, camera_matrix, camera_distortion):
         corners, ids, rejected = aruco.detectMarkers(gray_frame, aruco_dict, camera_matrix, camera_distortion)
         
         if ids is not None:
+            print("still seeing marker")
             return 0
 
         img = frame.copy()
@@ -128,7 +129,7 @@ def obstacleAvoidance(cap, aruco_dict, camera_matrix, camera_distortion):
         y = (min(c))
         # print(y)
         
-        if forwardEdge[0] > 410: #200 # >230 works better 
+        if forwardEdge[0] > 260: #200 # >230 works better 
 
             if y[1] < 310:
                 direction = "left "
