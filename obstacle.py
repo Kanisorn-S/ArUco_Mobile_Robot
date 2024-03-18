@@ -120,7 +120,7 @@ def obstacleAvoidance(cap):
         y = (min(c))
         # print(y)
         
-        if forwardEdge[0] > 270: #200 # >230 works better 
+        if forwardEdge[0] > 300: #200 # >230 works better 
 
             if y[1] < 310:
                 direction = "left "
